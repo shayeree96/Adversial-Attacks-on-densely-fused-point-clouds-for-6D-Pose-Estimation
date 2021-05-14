@@ -1,8 +1,67 @@
-# DenseFusion
+# Adversarial Attack Resilient 6D Pose Estimation using Dense Fusion 
+
+## Objectives
+
+- Implement dense fusion based 6D Pose estimation network
+- Perform Adversarial attacks on the network to explore how the network can be fooled
+	- Adversarial Attacks performed: FGM and PGD based attacks
+- Perform adversarial training of the network to improve the robustness of the network to adversarial examples
+
+## 6D Pose Estimation: 
+
+- 6D Pose estimation corrsponds to obtaining the complete pose of an object characterized by the translation and the rotation transformation values w.r.to a world coordinate frame.
+- In our work we follow an Iterative Dense Fusion based Deep Learning technique as proposed in the paper "DenseFusion: 6D Object Pose Estimation by Iterative Dense Fusion"([arXiv](https://arxiv.org/abs/1901.04780)) to realize the task.
+
+## Network Architecture
+- Shayeree 
+
+## Loss Function
+- Shayeree
+
+## Evaluation Metric
+-Shayeree
+
+## Adversarial Attacks
+
+### Definition
+**Adversarial attacks** An adversarial attack creates an example that compromises a victim network’s behavior at the
+attacker’s will. Crafting an adversarial example is typically cast as an optimization problem, with an adversarial loss on the network’s output, along with a regularization term on the distortion of the input. Adversarial attacks have been thoroughly studied for 2D image classifiers and lately have been expanded to 3D
+point clouds. Adversarial attacks on 3D point clouds can be of the type such as: shifting certain points on the point cloud by a small distance, add new points at random locations, removing some points. Several works have shown that this is an efficient strategy to misclassify an element even though the changes in the point cloud are very minute and imperceptible to the human eye. The following shows an example of adversarial attacks on both 2D and 3D data:
 
 <p align="center">
-	<img src ="assets/pullfig.png" width="1000" />
+	<img src ="images/2D_Adversarial.png" width="1000" />
 </p>
+
+<p align="center">
+	<img src ="images/3D_Adversarial.png" width="1000" />
+</p>
+
+### Types of Adversarial Attacks: 
+
+Adversarial attacks come in many forms. For 2D images, they can be as simple as applying random noise to putting additional image patches on the original images. In case of 3D point clouds, the space and scope of performing adversarial attacks is even extended as now we can increase the dimension of the data unlike the 2D images. As explained above, there are several ways in which we can perform 3D adversarial attacks. However, adversarial attacks in the context of 6D pose estimation is a relatively less studied concept. To the best of our knowledge there is no work that performs adversarial attacks on point cloud data. Our intention was to explore how such attacks can be replicated for the problem of 6D pose estimation. We hence perform 2 kind of attacks for this task of 6D pose estimation, namely FSGM attack and PGD attack. The following are a brief description of the attacks:
+
+**FGSM Attack:** FGSM Attack stands for Fast Gradient Sign Method. The fast gradient sign method works by using the gradients of the neural network to create an adversarial example. For an input image, the method uses the gradients of the loss with respect to the input image to create a new image that maximises the loss. This new image is called the adversarial image. An illustration is given in the below image:
+
+<p align="center">
+	<img src ="images/FGSM.png" width="1000" />
+</p>
+
+However, since we are dealing with point cloud information, the adversarial point cloud is obtained by taking the original point cloud, obtaining the loss value and then obtaining the gradient of the loss w.r.to the point cloud data to perform the adversarial attack. Please refer to the `attacks/FGM/fgm.py` for more details. 
+
+**PGD Attack:** PGD Attack refers to Projected Gradient Descent. PGD based attack is an extension to the FGSM based attack, in that the FGSM attack is called iteratively to obtain the adversarial point cloud. The following is a demonstration of the PGD based attack for a 2D image. In this, a white-box based targetted attack has been performed on the image. In that, a perturbation is performed so that a stop sign can be misclassified as a street car. In our project, we implemented an untargetted PGD based attack to obtain the adversarial point cloud. 
+
+<p align="center">
+	<img src ="images/PGD.png" width="1000" />
+</p>
+
+## Attack Implementation: 
+
+We perform the above suggested methods to perform adversarial attacks on the Dense Fusion network on LineMod data. The attacks have been very successful in that we were able to successfully fool the network to predict wrong 6D pose information. We use the baseline implementation of the network as described in the paper to train the model and then perform the attacks by freezing the weights of the model. We discuss the effectiveness of the method in the results section. 
+
+## Adversarial Training: 
+
+Now that we have two methods to successfully attack a network for the task of 6D Pose estimation, the next step is to successfully defend the network against such attacks. For the task of adversarial attacks on point cloud based 3D classification networks, several defense mechanisms have been suggested. One of the famous defense method is Adversarial Training. The basic idea is to simply create and then incorporate adversarial examples into the training process. In other words, since we know that “standard” training creates networks that are succeptible to adversarial examples, let’s just also train on a few adversarial examples. In our project, we perform the adversarial training, by first obtaining a normal point cloud from the data loader, then we obtain the adversarial example by using 
+
 
 ## News
 We have released the code and arXiv preprint for our new project [6-PACK](https://sites.google.com/view/6packtracking) which is based on this work and used for category-level 6D pose tracking.
