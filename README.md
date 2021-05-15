@@ -12,11 +12,15 @@
 - 6D Pose estimation corrsponds to obtaining the complete pose of an object characterized by the translation and the rotation transformation values w.r.to a world coordinate frame.
 - In our work we follow an Iterative Dense Fusion based Deep Learning technique as proposed in the paper "DenseFusion: 6D Object Pose Estimation by Iterative Dense Fusion"([arXiv](https://arxiv.org/abs/1901.04780)) to realize the task.
 
+![image](https://user-images.githubusercontent.com/54212099/118355325-60681b00-b53d-11eb-8692-a29b6509d97e.png)
+
+
 ## Network Architecture
-- Shayeree 
+- ![image](https://user-images.githubusercontent.com/54212099/118355370-a91fd400-b53d-11eb-86cb-9fce3a3079d8.png)
+![image](https://user-images.githubusercontent.com/54212099/118355387-bccb3a80-b53d-11eb-83a6-458a4db04b7d.png)
 
 ## Loss Function
-- Shayeree
+![image](https://user-images.githubusercontent.com/54212099/118355399-cb195680-b53d-11eb-972c-6441233d134e.png)
 
 ## Evaluation Metric
 -Shayeree
