@@ -43,7 +43,7 @@ where xj denotes the jth point of the M randomly selected 3D points from the obj
 ## Adversarial Attacks
 
 ### Definition
-**Adversarial attacks** An adversarial attack creates an example that compromises a victim network’s behavior at the
+**Adversarial attacks:** An adversarial attack creates an example that compromises a victim network’s behavior at the
 attacker’s will. Crafting an adversarial example is typically cast as an optimization problem, with an adversarial loss on the network’s output, along with a regularization term on the distortion of the input. Adversarial attacks have been thoroughly studied for 2D image classifiers and lately have been expanded to 3D
 point clouds. Adversarial attacks on 3D point clouds can be of the type such as: shifting certain points on the point cloud by a small distance, add new points at random locations, removing some points. Several works have shown that this is an efficient strategy to misclassify an element even though the changes in the point cloud are very minute and imperceptible to the human eye. The following shows an example of adversarial attacks on both 2D and 3D data:
 
@@ -79,8 +79,45 @@ We perform the above suggested methods to perform adversarial attacks on the Den
 
 ## Adversarial Training: 
 
-Now that we have two methods to successfully attack a network for the task of 6D Pose estimation, the next step is to successfully defend the network against such attacks. For the task of adversarial attacks on point cloud based 3D classification networks, several defense mechanisms have been suggested. One of the famous defense method is Adversarial Training. The basic idea is to simply create and then incorporate adversarial examples into the training process. In other words, since we know that “standard” training creates networks that are succeptible to adversarial examples, let’s just also train on a few adversarial examples. In our project, we perform the adversarial training, by first obtaining a normal point cloud from the data loader, then we obtain the adversarial example by using 
+Now that we have two methods to successfully attack a network for the task of 6D Pose estimation, the next step is to successfully defend the network against such attacks. For the task of adversarial attacks on point cloud based 3D classification networks, several defense mechanisms have been suggested. One of the famous defense method is Adversarial Training. The basic idea is to simply create and then incorporate adversarial examples into the training process. In other words, since we know that “standard” training creates networks that are succeptible to adversarial examples, let’s just also train on a few adversarial examples. In our project, we perform the adversarial training, by first obtaining a normal point cloud from the data loader, then we obtain the adversarial example by using FGSM attacks and then we backpropogate the loss of the prediction of the model on both the original point cloud and the attacked point cloud. In this way, we perform an online version of the adversarial training of the network. 
 
+# Results and Discussion
+
+## Quantitative Results
+
+We present a quantitative analysis of the effectiveness of our attack and defence mechanisms in the following table. We present the baseline results on the ADD Metric that we obtain using the hyper parameters as suggested in the paper. We present the results with both pose refinement step and without pose refinement. Then we show how the model performs under the FGSM and PGD attacks. Ultimately, we show the robustness of the Adversarial Training defense mechanism by comparing the performance with and without adversarial training. We performed all the experiments on the LineMOD data. Our initial plan was to implement the system for both YCB Dataset and the LineMOD dataset. However, we later realized the computational expenses in performing the adversarial training on the YCB Dataset and decided not to pursue it. 
+
+<p align="center">
+	<img src ="images/RT1.png" width="1000" />
+	
+</p>
+
+As expected, upon both FGSM and the PGD attacks, we can observed a significant drop in the ADD values on all objects in the LineMOD dataset. It can also be observed that the drop is more pronounced on curvy objects such as a duck. These values show the vulnerability of the model to slight perturbations using the FGSM and PGD attacks. On an average the ADD metric reduced from 94 pts to 70 pts resulting in a 32% decrease in the ADD metric values for FGSM attacks and a 35% decrease for the PGD attacks. However, upon adversarial training, we can observe that there has been a significant increase in the ADD values for both FGSM attacks and the PGD attacks. We can observe an increase of 19% from the baseline result in case of FGSM attack and an increase of 25% increase in case of PGD attacks. The results show the effectiveness of adversarial training as a defense mechanism to defend the white-box based attacks such that the evaluation metrics donot degrade significantly.  
+
+## Visualization
+
+We present the visualizations on 1 data point. The below image presents a view of the different inputs, outputs and prediciton values. 
+
+
+<p align="center">
+	<img src ="images/RGB_d1.png" width="1000" />
+</p>
+
+<p align="center">
+	<img src ="images/Pred_2.png" width="1000" />
+</p>
+
+As seen above, we perform FGSM and PGD attacks on the segmented point cloud pertaining to a particular object. As seen, the perturbation in the point cloud is such that the point cloud doesn't change much as perceived by the human eye. However, as shown in the second image, the results show a different scenario. The predicted values in translation and the rotation vector are altered. Even though the change in the rotation vector is minimal, we can observe significant difference in the translation vector. This can be happening as the translation vectors of each point in the point cloud will be directly affected upon perturbation on the data. As seen, even though the model performs pose estimation on each point of the point cloud, it is still ineffective on defending the model against these kind of FGSM and PGD attacks with imperceptible/small perturbations. 
+
+## Conclusion
+
+We implemented a deep learning based 6D Pose estimation network following the technique of Dense Fusion for Pose Estimation. We obtained the baseline results to show how the model performs on the LineMOD dataset. We then perform FGSM and PGD based adversarial attacks on the model to show how the model is vulnerable to the white-box based attacks. We observed signinficant drop in the evaluation metric. We suggested adversarial training be used as the defense mechanism to defend the model against these attacks. Hence, we perform adversarial training on the entire dataset in an online fashion. Upon adversarial training, we see the model defending the attacks with signinficant improvement of the ADD metrics. 
+
+## Future Work
+
+Ours is one of the first works that showcase how adversarial attacks can be used in the context of 6D pose estimation problems. However, we believe there is a long path forward to explore potential attack methodologies and defense methodologies that can defend against these attacks. In the context of the point clouds, we see manipulating point clouds in additional ways such as removing points, add strategic points and other methods can be explored as successful attack methods. To defend them, one interesting way would be to use reconstruction mechanisms that would help preserve the shape of the original objects thus reducing the effects of these perturbations. We believe, in this age of autonomy, robust pose estimation is of prime importance and hope to improve our treatment of the problem in future. 
+
+## References
 
 ## News
 We have released the code and arXiv preprint for our new project [6-PACK](https://sites.google.com/view/6packtracking) which is based on this work and used for category-level 6D pose tracking.
