@@ -23,7 +23,7 @@
 ![image](https://user-images.githubusercontent.com/54212099/118355399-cb195680-b53d-11eb-972c-6441233d134e.png)
 
 ## Evaluation Metric
--Shayeree
+-The average closest point distance (ADD-S) is an ambiguity-invariant pose error metric which takes care of both symmetric and non-symmetric objects into an over-all evaluation. Given the estimated pose [R|t] and ground truth pose [R|t], ADD-S calculates the mean distance from each 3D model point transformed by [R|t] to its closest neighbour on the target model transformed by [R|t].
 
 ## Adversarial Attacks
 
