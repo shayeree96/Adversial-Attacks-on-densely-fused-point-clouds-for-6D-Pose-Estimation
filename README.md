@@ -16,11 +16,26 @@
 
 
 ## Network Architecture
+
+The first stage takes color image as input and performs semantic segmentation for each known object category. Then, for each segmented object, we feed the masked depth pixels (converted to 3D point cloud) as well as an image patch cropped by the bounding box of the mask to the second stage. The second stage processes the results of the segmenta- tion and estimates the object’s 6D pose. 
+It comprises four components: 
+- 	a) a fully convolutional network that processes the color information and maps each pixel in the image crop to a color feature embedding
+- 	b) a PointNet-based network that processes each point in the masked 3D point cloud to a geometric feature embedding
+- 	c) a pixel-wise fusion network that combines both embeddings and outputs the estimation of the 6D pose of the object based on an unsupervised confidence scoring
+
 - ![image](https://user-images.githubusercontent.com/54212099/118355370-a91fd400-b53d-11eb-86cb-9fce3a3079d8.png)
+
+An iterative self-refinement methodology to train the network in a curriculum learning manner and refine the estimation result iteratively
+
 ![image](https://user-images.githubusercontent.com/54212099/118355387-bccb3a80-b53d-11eb-83a6-458a4db04b7d.png)
 
 ## Loss Function
+
+We define the pose estimation loss as the distance between the points sam- pled on the objects model in ground truth pose and corresponding points on the same model transformed by the predicted pose. Specifically, the loss to minimize for the prediction per dense-pixel is defined as
+
 ![image](https://user-images.githubusercontent.com/54212099/118355399-cb195680-b53d-11eb-972c-6441233d134e.png)
+
+where xj denotes the jth point of the M randomly selected 3D points from the object’s 3D model, p = [R|t] is the ground truth pose, and pˆ = [Rˆ |tˆ] is the predicted pose generated from the fused embedding of the ith dense-pixel.
 
 ## Evaluation Metric
 -The average closest point distance (ADD-S) is an ambiguity-invariant pose error metric which takes care of both symmetric and non-symmetric objects into an over-all evaluation. Given the estimated pose [R|t] and ground truth pose [R|t], ADD-S calculates the mean distance from each 3D model point transformed by [R|t] to its closest neighbour on the target model transformed by [R|t].
