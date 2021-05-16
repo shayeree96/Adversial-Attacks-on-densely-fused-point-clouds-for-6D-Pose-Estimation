@@ -120,5 +120,7 @@ Ours is one of the first works that showcase how adversarial attacks can be used
 ## References
 
 [1] Chen Wang, Danfei Xu, Yuke Zhu, Roberto Mart´ın-Mart´ın, Cewu Lu, Li Fei-Fei, Silvio Savarese DenseFusion: 6D Object Pose Estimation by Iterative Dense Fusion
+
 [2] Aleksander Madry, Aleksandar Makelov, Ludwig Schmidt, et.al. Towards Deep Learning Models Resistant to Adversarial Attacks
+
 [3] Ian J. Goodfellow, Jonathon Shlens, Christian Szegedy, Explaining and Harnessing Adversarial Examples
