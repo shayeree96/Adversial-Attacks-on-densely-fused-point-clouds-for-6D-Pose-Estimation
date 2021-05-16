@@ -48,11 +48,11 @@ attacker’s will. Crafting an adversarial example is typically cast as an optim
 point clouds. Adversarial attacks on 3D point clouds can be of the type such as: shifting certain points on the point cloud by a small distance, add new points at random locations, removing some points. Several works have shown that this is an efficient strategy to misclassify an element even though the changes in the point cloud are very minute and imperceptible to the human eye. The following shows an example of adversarial attacks on both 2D and 3D data:
 
 <p align="center">
-	<img src ="images/2D_Adversarial.png" width="500" />
+	<img src ="images/2D_Adversarial.png" width="700" />
 </p>
 
 <p align="center">
-	<img src ="images/3D_Adversarial.png" width="500" />
+	<img src ="images/Perturbation_1.png" width="700" />
 </p>
 
 ### Types of Adversarial Attacks: 
@@ -62,7 +62,7 @@ Adversarial attacks come in many forms. For 2D images, they can be as simple as 
 **FGSM Attack:** FGSM Attack stands for Fast Gradient Sign Method. The fast gradient sign method works by using the gradients of the neural network to create an adversarial example. For an input image, the method uses the gradients of the loss with respect to the input image to create a new image that maximises the loss. This new image is called the adversarial image. An illustration is given in the below image:
 
 <p align="center">
-	<img src ="images/FGSM.png" width="500" />
+	<img src ="images/fgsm.png" width="700" />
 </p>
 
 However, since we are dealing with point cloud information, the adversarial point cloud is obtained by taking the original point cloud, obtaining the loss value and then obtaining the gradient of the loss w.r.to the point cloud data to perform the adversarial attack. Please refer to the `attacks/FGM/fgm.py` for more details. 
@@ -70,7 +70,7 @@ However, since we are dealing with point cloud information, the adversarial poin
 **PGD Attack:** PGD Attack refers to Projected Gradient Descent. PGD based attack is an extension to the FGSM based attack, in that the FGSM attack is called iteratively to obtain the adversarial point cloud. The following is a demonstration of the PGD based attack for a 2D image. In this, a white-box based targetted attack has been performed on the image. In that, a perturbation is performed so that a stop sign can be misclassified as a street car. In our project, we implemented an untargetted PGD based attack to obtain the adversarial point cloud. 
 
 <p align="center">
-	<img src ="images/PGD.png" width="500" />
+	<img src ="images/PGD_1.png" width="700" />
 </p>
 
 ## Attack Implementation: 
