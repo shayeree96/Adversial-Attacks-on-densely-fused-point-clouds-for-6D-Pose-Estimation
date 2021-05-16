@@ -1,5 +1,7 @@
 # Adversarial Attack Resilient 6D Pose Estimation using Dense Fusion 
 
+Project Video: [Link](https://youtu.be/yFGIBgiIVOs)
+
 ## Objectives
 
 - Implement dense fusion based 6D Pose estimation network
